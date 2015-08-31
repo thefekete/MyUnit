@@ -3,7 +3,7 @@
  * @{
  *
  * \brief       MyUnit interface
- * \version     0.1
+ * \version     0.1.1
  * \author      Dan Fekete <thefekete@gmail.com>
  * \date        August 30, 2015
  *
@@ -188,8 +188,8 @@
     } \
 } while(0)
 
-long int _tests_run = 0;              /**< number of tests that have been run */
-long int _asses_run = 0;       /**< number of asserts that have been asserted */
+int _tests_run = 0;              /**< number of tests that have been run */
+int _asses_run = 0;       /**< number of asserts that have been asserted */
 
 
 #endif /* _MYUNIT_H_ */
