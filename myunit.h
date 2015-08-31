@@ -10,6 +10,71 @@
  *             Released under the WTFPL, see COPYING file for details
  *             or http://www.wtfpl.net/txt/copying
  *
+ * \section Installation
+ * Copy to your project folder and start writting tests!
+ *
+ * \section Usage
+ * \par Include the header
+ * To write tests with MyUnit, you must first include the header file. You can
+ * just copy this file to your source directory, symlink it or add the directory
+ * where it lives to your compilers search path.
+ * \code
+ * #include "myunit.h"
+ * \endcode
+ *
+ * \par Add a test
+ * Here we add a failing test to make sure it works, or fails in this case:
+ * \code
+ * static char * fail_test(void) {
+ *     ass(0);
+ *     return 0;
+ * }
+ * \endcode
+ *
+ * \par Add the test to a test group
+ * Tests are run from test groups. Simply define a test group and call each of
+ * your tests with \ref run_test().
+ * \code
+ * static char * my_test_group()
+ * {
+ *     run_test(fail_test);
+ *     return 0;
+ * }
+ * \endcode
+ *
+ * \par Main function
+ * Now you just call each test group with \ref run_group() and add a pass
+ * at the end.
+ * \code
+ * int main(void) {
+ *     run_group(my_test_group);
+ *
+ *     printf("%d assertions in %d tests\n", _asses_run, _tests_run);
+ *     printf("ALL PASSED");
+ * }
+ * \endcode
+ *
+ * That's it! Just compile your test program and run it!
+ *
+ * \section makefile Example makefile
+ * Here's an example make file to make your tests:
+ * \code
+ * P=my_tests                              # test program name without extension
+ * OBJECTS=                                         # files being tested go here
+ * CFLAGS=-Wall -Wno-unused     # show all errors, except for comented out tests
+ * CC=gcc -std=gnu99 -D_GNU_SOURCE             # gcc with extras (asprintf, etc)
+ *
+ * $(P): $(OBJECTS)
+ *
+ * .PHONY: check
+ * check: $(P)
+ * 	./$(P)
+ *
+ * .PHONY: clean
+ * clean:
+ * 	$(RM) $(P) $(OBJECTS)
+ * \endcode
+ *
  */
 #ifndef _MYUNIT_H_
 #define _MYUNIT_H_
