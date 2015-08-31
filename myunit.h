@@ -2,13 +2,14 @@
  * \defgroup module_myunit <myunit.h>: MyUnit
  * @{
  *
- * \brief      MyUnit interface
- * \author     Dan Fekete <thefekete@gmail.com>
- * \date       August 30, 2015
+ * \brief       MyUnit interface
+ * \version     0.1
+ * \author      Dan Fekete <thefekete@gmail.com>
+ * \date        August 30, 2015
  *
- * \copyright  Copyright (c) 2015, Dan Fekete <thefekete@gmail.com>,
- *             Released under the WTFPL, see COPYING file for details
- *             or http://www.wtfpl.net/txt/copying
+ * \copyright   Copyright (c) 2015, Dan Fekete <thefekete@gmail.com>,
+ *              Released under the WTFPL, see COPYING file for details
+ *              or http://www.wtfpl.net/txt/copying
  *
  * \section Installation
  * Copy to your project folder and start writting tests!
