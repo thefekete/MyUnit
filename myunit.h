@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/** \brief Assert that \c test is true / non-zero */
 #define ass(test) do { \
     _asses_run++; \
     char *message; \
@@ -26,6 +27,19 @@
     if (!(test)) return message; \
 } while (0)
 
+/** \brief Compare two integers
+ *
+ * Compares the two integers like an if statement. COMP can be any comparison
+ * operator that you sould use in an if statement.
+ *
+ * \note These macros use a local variable inside a block to evaluate the inputs
+ *       exactly once. Therefore if your test is relying on a global with the
+ *       same name as this internal variable, you will have problems.
+ *
+ * \param X The first integer to be compared
+ * \param COMP the comparison to be performed
+ * \param Y The second integer to be compared
+ */
 #define ass_int(X, COMP, Y) do { \
     _asses_run++; \
     long long int __x = X, __y = Y;  /* eval once */ \
@@ -37,6 +51,20 @@
     if (!(__x COMP __y)) return message; \
 } while (0)
 
+/** \brief Compare two strings
+ *
+ * Uses strcmp to compare the two strings. Then compares that result with 0
+ * using COMP. COMP can be any comparison operator you would use in an if
+ * statement.
+ *
+ * \note These macros use a local variable inside a block to evaluate the inputs
+ *       exactly once. Therefore if your test is relying on a global with the
+ *       same name as this internal variable, you will have problems.
+ *
+ * \param X The first string to be compared
+ * \param COMP the comparison to be performed
+ * \param Y The second string to be compared
+ */
 #define ass_str(X, COMP, Y) do { \
     _asses_run++; \
     /* eval once */ \
@@ -50,11 +78,37 @@
     if (!(strcmp(__x, __y) COMP 0)) return message; \
 } while (0)
 
+/** \brief Run a test
+ *
+ * Tests must have the following signature:
+ * \code
+ * static char * my_test_name(void);
+ * \endcode
+ * On failure, the assertion macros will return a string with the error message
+ * for you. If all the assertions pass the function should return 0 or NULL. Do
+ * this by placing a "<tt>return 0;</tt>" as the last statement in the test
+ * function.
+ *
+ * \param test The test function to be run
+ */
 #define run_test(test) do { char *message = test(); _tests_run++; \
     if (message) return message; \
     else free(message); \
 } while (0)
 
+/** \brief Run a group of tests
+ *
+ * Test groups must have the following signature:
+ * \code
+ * static char * my_group_name(void);
+ * \endcode
+ * If any of the tests fail, this macro will return a string with the error
+ * message from the failed test for you. If all the tests pass the function
+ * should return 0 or NULL. Do this by placing a "<tt>return 0;</tt>" as the
+ * last statement in the test function.
+ *
+ * \param group The test group function to be run
+ */
 #define run_group(group) do { \
     int prev_tests_run = _tests_run; \
     char *result = group(); \
@@ -68,7 +122,8 @@
     } \
 } while(0)
 
-int _tests_run = 0, _asses_run = 0;
+long int _tests_run = 0;              /**< number of tests that have been run */
+long int _asses_run = 0;       /**< number of asserts that have been asserted */
 
 
 #endif /* _MYUNIT_H_ */
