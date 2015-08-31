@@ -1,4 +1,18 @@
-/* file: myunit.h */
+/** \file
+ * \defgroup module_myunit <myunit.h>: MyUnit
+ * @{
+ *
+ * \brief      MyUnit interface
+ * \author     Dan Fekete <thefekete@gmail.com>
+ * \date       August 30, 2015
+ *
+ * \copyright  Copyright (c) 2015, Dan Fekete <thefekete@gmail.com>,
+ *             Released under the WTFPL, see COPYING file for details
+ *             or http://www.wtfpl.net/txt/copying
+ *
+ */
+#ifndef _MYUNIT_H_
+#define _MYUNIT_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,3 +69,7 @@
 } while(0)
 
 int _tests_run = 0, _asses_run = 0;
+
+
+#endif /* _MYUNIT_H_ */
+/** @} */  // end of  module_myunit group
