@@ -117,6 +117,30 @@
     if (!(__x COMP __y)) return message; \
 } while (0)
 
+/** \brief Compare two doubles
+ *
+ * Compares the two doubles like an if statement. COMP can be any comparison
+ * operator that you sould use in an if statement.
+ *
+ * \note These macros use a local variable inside a block to evaluate the inputs
+ *       exactly once. Therefore if your test is relying on a global with the
+ *       same name as this internal variable, you will have problems.
+ *
+ * \param X The first double to be compared
+ * \param COMP the comparison to be performed
+ * \param Y The second double to be compared
+ */
+#define ass_double(X, COMP, Y) do { \
+    _asses_run++; \
+    double __x = X, __y = Y;  /* eval once */ \
+    char *message; \
+    asprintf(&message, \
+            "%s:%d:%s() Comparison '%s %s %s' failed, " \
+            "!(%f %s %f)", \
+            __FILE__, __LINE__, __func__, #X, #COMP, #Y, __x, #COMP, __y); \
+    if (!(__x COMP __y)) return message; \
+} while (0)
+
 /** \brief Compare two strings
  *
  * Uses strcmp to compare the two strings. Then compares that result with 0
