@@ -27,6 +27,20 @@ static char * test_baz()
     return 0;
 }
 
+static char * test_double()
+{
+    ass_double(3.549, ==, 3.549);
+    return 0;
+}
+
+static char * test_good_enough()
+{
+    //float f = 12345.6789;  // becomes 12345.678711
+    ass_tolerance(12345.6789, 12345.678711, 0.00019);
+    ass_tolerance(1, 1.01, 0.010001);  // still need a little extra here
+    return 0;
+}
+
 static char * test_fail()
 {
     ass(0);
@@ -38,6 +52,8 @@ static char * passing_tests()
     run_test(test_foo);
     run_test(test_bar);
     run_test(test_baz);
+    run_test(test_double);
+    run_test(test_good_enough);
     return 0;
 }
 
@@ -49,8 +65,6 @@ static char * failing_tests()
 
 int main(int argc, char **argv)
 {
-    run_group(passing_tests);
-    run_group(passing_tests);
     run_group(passing_tests);
     run_group(failing_tests);
 
