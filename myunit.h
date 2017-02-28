@@ -3,7 +3,7 @@
  * @{
  *
  * \brief       MyUnit interface
- * \version     0.1.1
+ * \version     0.2
  * \author      Dan Fekete <thefekete@gmail.com>
  * \date        August 30, 2015
  *
@@ -83,6 +83,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 /** \brief Assert that \c test is true / non-zero */
 #define ass(test) do { \
@@ -115,6 +116,55 @@
             "!(%lld %s %lld)", \
             __FILE__, __LINE__, __func__, #X, #COMP, #Y, __x, #COMP, __y); \
     if (!(__x COMP __y)) return message; \
+} while (0)
+
+/** \brief Compare two doubles
+ *
+ * Compares the two doubles like an if statement. COMP can be any comparison
+ * operator that you sould use in an if statement.
+ *
+ * \note These macros use a local variable inside a block to evaluate the inputs
+ *       exactly once. Therefore if your test is relying on a global with the
+ *       same name as this internal variable, you will have problems.
+ *
+ * \param X The first double to be compared
+ * \param COMP the comparison to be performed
+ * \param Y The second double to be compared
+ */
+#define ass_double(X, COMP, Y) do { \
+    _asses_run++; \
+    double __x = X, __y = Y;  /* eval once */ \
+    char *message; \
+    asprintf(&message, \
+            "%s:%d:%s() Comparison '%s %s %s' failed, " \
+            "!(%f %s %f)", \
+            __FILE__, __LINE__, __func__, #X, #COMP, #Y, __x, #COMP, __y); \
+    if (!(__x COMP __y)) return message; \
+} while (0)
+
+/** \brief Compare two numbers for equality with a tolerance
+ *
+ * Compares the two numbers for equality, but within a tolerance given. This is
+ * useful for floats and doubles where the precision makes it dificult to know
+ * the answer. 
+ *
+ * \note These macros use a local variable inside a block to evaluate the inputs
+ *       exactly once. Therefore if your test is relying on a global with the
+ *       same name as this internal variable, you will have problems.
+ *
+ * \param X The first double to be compared
+ * \param Y The second double to be compared
+ * \param P the precision required
+ */
+#define ass_tolerance(X, Y, P) do { \
+    _asses_run++; \
+    double __x = X, __y = Y, __p = P;  /* eval once */ \
+    char *message; \
+    asprintf(&message, \
+            "%s:%d:%s() Comparison '%s == %s [+/- %s]' failed " \
+            "( abs(%f - %f) <= %f )", \
+            __FILE__, __LINE__, __func__, #X, #Y, #P, __x, __y, __p); \
+    if (!(fabs(__x - __y) <= __p)) return message; \
 } while (0)
 
 /** \brief Compare two strings
