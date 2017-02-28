@@ -37,6 +37,7 @@ static char * test_good_enough()
 {
     //float f = 12345.6789;  // becomes 12345.678711
     ass_tolerance(12345.6789, 12345.678711, 0.00019);
+    ass_tolerance(1, 1.01, 0.010001);  // still need a little extra here
     return 0;
 }
 

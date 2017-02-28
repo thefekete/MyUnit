@@ -162,7 +162,7 @@
     char *message; \
     asprintf(&message, \
             "%s:%d:%s() Comparison '%s == %s [+/- %s]' failed " \
-            "( abs(%f - %f) < %f )", \
+            "( abs(%f - %f) <= %f )", \
             __FILE__, __LINE__, __func__, #X, #Y, #P, __x, __y, __p); \
     if (!(fabs(__x - __y) <= __p)) return message; \
 } while (0)
